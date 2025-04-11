@@ -1,0 +1,1 @@
+Examine the indoor scene and a human motion sequence in the scene. Object information in scene: [<REPLACE>]. Motion sequence in scene: [<REPLACE>].

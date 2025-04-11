@@ -1,0 +1,561 @@
+evaluate: false
+batch_size: 4
+accum_iters: 1
+num_workers: 8
+
+model:
+  model_cls: HIS_LLM
+  pretrained_path: "outputs/20250227_175124_humanise#sceneverse#motionx__humanise#sceneverse#motionx__scratch_2/ckpt_19.pth"
+  img_projector_path: ""
+  llama_model_path: /home/zhaojiaohe/pretrained_models/vicuna-7b-v1.5
+  use_lora: false
+  low_resource: false
+
+  max_txt_len: 256
+  end_sym: </s>
+  role: ["USER", "ASSISTANT"]
+  system_path: prompts/system.txt
+  instruction_paths:
+    scene: prompts/instruction_scene.txt
+    scene-motion: prompts/instruction_scene-motion.txt
+    language: prompts/instruction_language.txt
+  
+  # scene cfgs
+  scene:
+    no_obj: false
+    add_scene_token: false
+    add_img_token: false
+    train_obj_emb: true
+    train_img_proj: false
+    obj_input_dim: 1024
+    img_input_dim: 1024
+    attr_dim: 512
+    scene_dim: 256
+    pos_dim: 128
+    max_obj_num: 100
+    bidirection: false
+    add_scene_pos_emb: true
+    feat_fusion: false
+    fuse_with_id: false
+    use_scene_loc_token: false
+  
+  # motion cfgs
+  motion:
+    motion_token_num: 512
+    add_motion_pos_emb: true
+    add_motion_loc_token: false
+    train_motion_emb: true
+    motion_input_dim: 768
+    motion_emb_file: "annotations/m3gpt_t2m_motion_embeds.pt"
+  
+  interaction:
+    scene_motion_fuse: false
+    sm_hidden_dim: 1024
+    sm_num_block: 6
+    int_mid_dim: 512
+
+    activity_w: 0.0
+    contact_w: 0.0
+    position_w: 0.0
+  
+  lora:
+    lora_target_modules: ["q_proj", "v_proj", "k_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+    lora_r: 64
+    lora_alpha: 16
+    lora_dropout: 0.05
+
+data:
+  train:
+    humanise_caption:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+
+    humanise_activity:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+    
+    humanise_loc-orient:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+    
+    humanise_loc-object:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+    
+    humanise_loc-position:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+    
+    humanise_hoi-interaction:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+    
+    humanise_hoi-object:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+    
+    humanise_hoi-part:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+    
+    humanise_pred-intent:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+    
+    humanise_pred-movement:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+    
+    humanise_planning:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+    
+    humanise_dialogue:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+    
+    humanise_open:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions_mask3d
+      ann_folder: qas_train_v1
+      sample_ratio: 1.0
+
+    trumans_caption:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_activity:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_loc-orient:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_loc-object:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_loc-position:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_hoi-interaction:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_hoi-object:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_hoi-part:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_pred-intent:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_pred-movement:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_planning:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_dialogue:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+    
+    trumans_open:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      int_files:
+        activity: metadata.json
+        hsi: motions
+      ann_folder: qas_train
+      sample_ratio: 0.3
+  
+  val:
+    humanise:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: scannet_mask3d_uni3d_feats.pt
+        seg_img_feat_file: scannet_mask3d_videofeats.pt
+        seg_train_attr_file: scannet_mask3d_val_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      ann_folder: qas_val
+    
+    trumans:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: trumans_mask3d_uni3d_feats.pt
+        seg_img_feat_file: trumans_mask3d_videofeats.pt
+        seg_train_attr_file: trumans_mask3d_train_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      ann_folder: qas_val
+    
+    hisbench:
+      task: scene-motion
+      ann_root: annotations
+      scene_files:
+        seg_feat_file: hisbench_mask3d_uni3d_feats.pt
+        seg_img_feat_file: hisbench_mask3d_videofeats.pt
+        seg_train_attr_file: hisbench_mask3d_val_attributes.pt
+      motion_files:
+        tokens: motion_tokens
+        trajs: motion_trajs
+      ann_folder: qas_val
+
+## running cfgs
+optimizer:
+  opt: adamW
+  lr: 3.125e-6
+  opt_betas: [0.9, 0.999]
+  weight_decay: 0.02
+  scaler_enable: false
+  max_grad_norm: 0.01
+  different_lr:
+    enable: false
+    module_names: ["model.embed_tokens"]
+    lr: [5e-4]
+    wd: [0.02]
+
+scheduler: 
+  sched: "cosine"
+  epochs: 10
+  min_lr_multi: 0.01
+  warmup_epochs: 0.1
+  iters_per_epoch: 5000
+
+dist_url: env://
+device: cuda
+
+debug: false
+wandb:
+  enable: false
+  entity: zjhterry
+  project: humaninsceneLLM
+output_dir: outputs
+resume: false
+log_freq: 20
+eval_freq: 2000
+seed: 42
+
+save_latest: false
+save_step_interval: 5
+do_save: true
+auto_resume: false
+gpu_num: 2

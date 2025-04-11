@@ -1,0 +1,1 @@
+Examine the indoor scene. Object information in the scene: [<REPLACE>].
