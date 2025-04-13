@@ -18,11 +18,16 @@
 ### Quick Start
 <details>
   <summary><b>Environmental Setup</b></summary>
-
+  
+```
+conda create -n hisgpt python=3.10
+pip install torch==2.2.1 torchvision==0.17.1 torchaudio==2.2.1 --index-url https://download.pytorch.org/whl/cu118
+pip install -r requirements.txt
+```
 </details>
-
 <details>
   <summary><b>Data Preparation</b></summary>
+  TBD
 </details>
 
 ### Training
