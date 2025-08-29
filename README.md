@@ -96,6 +96,9 @@ bash scripts/human_scene_pt.sh
 bash scripts/human_scene_it.sh
 ```
 
+## Build Your Own Human-In-Scene Data
+See <a href="https://github.com/ZJHTerry18/HumanInScene/blob/main/vl_generation/README.md">VL_GENERATION.md</a>.
+
 ## Citation
 If you find our paper useful, please consider citing:
 ```{bibtex}
