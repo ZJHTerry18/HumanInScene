@@ -114,4 +114,4 @@ If you find our paper useful, please consider citing:
 ```
 
 ## Acknowledgements
-This code implementation is based on [Chat-Scene](https://github.com/ZzZZCHS/Chat-Scene). Thanks to their awesome work!
+This code implementation is based on [Chat-Scene](https://github.com/ZzZZCHS/Chat-Scene) and [M3GPT](https://github.com/luomingshuang/M3GPT). Thanks to their awesome work!
