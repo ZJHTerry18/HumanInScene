@@ -1,5 +1,5 @@
 <div align="center">
-  <h1> HIS-GPT: Towards 3D Human-In-Scene Multimodal Understanding </h1>
+  <h1> [ICCV25] HIS-GPT: Towards 3D Human-In-Scene Multimodal Understanding </h1>
 </div>
 
 *HIS-GPT* is a large multi-modal foundation model for **human-in-scene (HIS)** understanding, a new task that we raise for understanding human behaviors in 3D scenes. To evaluate this new task, we also release *HIS-Bench*, the first multi-modal benchmark for comprehensively evaluating model's abilities on human-in-scene understanding. [<a href="https://arxiv.org/abs/2503.12955">Paper</a>]
@@ -14,6 +14,27 @@
 
 ## HIS-Bench
 
+HIS-Bench data could be downloaded from <a href="https://uob-my.sharepoint.com/:f:/g/personal/ur25890_bristol_ac_uk/EmXxAIpeuyxIkGAfP225grsBUz4-6PATVA8iEoqHAXM1VA?e=klATTj">this link</a>.
+
+  - The dataset contains the following components:
+    - `qas_val`: all the question-answering samples of HIS-Bench, divided into separate `.json` files for each sub-task. A data example looks like:
+      ```
+      {
+         "task": "activity",
+         "index": 0,
+         "data_id": "PROX#BasementSittingBooth_00142_01#40.0_50.0",
+         "scene_id": "BasementSittingBooth",
+         "motion_id": "PROX#BasementSittingBooth_00142_01#40.0_50.0",
+         "qa": [{"question": "What is the person doing initially?", "answer": "He sits at a table."]
+      }
+      ```
+    - `pcd_all`: the 3D point cloud data for every 3D scene in HIS-Bench, named as `<scene_id>.pth`.
+    - `motion_tokens`: the token ids for each 3D motion in HIS-Bench, extracted by M3GPT. Named as `<motion_id>.npy`.
+    - `motion_trajs`: the 2D trajectories for each 3D motion in HIS-Bench. Named as `<data_id>.npy'.
+    - `hisbench_mask3d_uni3d_feats.pt`: the 3D scene representations of HIS-Bench, extracted by Uni3D and can be directly used for HIS-GPT inference.
+
+### Evaluation
+See <a href="https://github.com/ZJHTerry18/HumanInScene/blob/main/evaluation/README.md">EVALUATION.md</a>.
 
 ## HIS-GPT
 
@@ -74,13 +95,6 @@ bash scripts/human_scene_pt.sh
 ```
 bash scripts/human_scene_it.sh
 ```
-
-### Evaluation
-To evaluate the model on HIS-Bench, please first download and prepare the HIS-Bench data according to the following steps:
-
-Then, run the inference to get the model's answers on HIS-Bench questions:
-
-Finally, use the GPT-based evaluation code to get the performance score:
 
 ## Citation
 If you find our paper useful, please consider citing:
