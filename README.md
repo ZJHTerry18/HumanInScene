@@ -14,7 +14,7 @@
 
 ## HIS-Bench
 
-HIS-Bench data could be downloaded from <a href="https://uob-my.sharepoint.com/:f:/g/personal/ur25890_bristol_ac_uk/EmXxAIpeuyxIkGAfP225grsBUz4-6PATVA8iEoqHAXM1VA?e=klATTj">this link</a>.
+HIS-Bench data could be downloaded from Huggingface: [this link](https://huggingface.co/datasets/TerryZ37/HIS-Bench).
 
   - The dataset contains the following components:
     - `qas_val`: all the question-answering samples of HIS-Bench, divided into separate `.json` files for each sub-task. A data example looks like:
@@ -51,7 +51,7 @@ pip install -r requirements.txt
 <details>
   <summary><b>Data Preparation</b></summary>
   
-  Download the HIS-GPT training data from <a href="https://uob-my.sharepoint.com/:f:/g/personal/ur25890_bristol_ac_uk/En2epSoEPBRLpy7qCL2PxfIBrocUlIzniZdMarmjjBekAA?e=qYil1E">here</a>.
+  Download the HIS-GPT training data from [here](https://huggingface.co/datasets/TerryZ37/HIS-GPT-training).
   
   Put all the data under the `./annotations` directory. Unzip the `.zip` files in the subdirectories. You will get the directory contains the following contents:
 ```
