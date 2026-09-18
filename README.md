@@ -10,7 +10,7 @@
 
 - [x] Upload the training & evaluation code.
 - [x] Release the annotations of HIS-Bench and HIS-GPT training data.
-- [ ] Release the pretrained weights of HIS-GPT.
+- [x] Release the pretrained weights of HIS-GPT.
 
 ## HIS-Bench
 
@@ -35,6 +35,8 @@ HIS-Bench data could be downloaded from Huggingface: [this link](https://hugging
 
 ### Evaluation
 See <a href="https://github.com/ZJHTerry18/HumanInScene/blob/main/evaluation/README.md">EVALUATION.md</a>.
+
+Pretrained HIS-GPT checkpoint can be downloaded here: [stage 1](https://drive.google.com/file/d/1FqnAT-H0zzlX8zU19wI6CLgacUzKarv_/view?usp=sharing), [stage 2](https://drive.google.com/file/d/1HU7aPx9Q3ee0pzmloopCGEZCg497tOpx/view?usp=sharing).
 
 ## HIS-GPT
 
